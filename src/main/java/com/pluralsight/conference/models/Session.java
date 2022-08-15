@@ -1,7 +1,8 @@
 package com.pluralsight.conference.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
+
+
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,21 +15,29 @@ import javax.persistence.ManyToMany;
 @Entity(name = "sessions")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Session {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long session_id;
     private String session_name;
     private String session_description;
     private Integer session_length;
+
     @ManyToMany
     @JoinTable(
-      name = "session_speakers",
-      joinColumns = @JoinColumn(name = "session_id"),
-      inverseJoinColumns = @JoinColumn(name = "speaker_id"))
+            name = "session_speakers",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "speaker_id"))
     private List<Speaker> speakers;
 
     public Session() {
+    }
+
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(List<Speaker> speakers) {
+        this.speakers = speakers;
     }
 
     public Long getSession_id() {
@@ -61,13 +70,5 @@ public class Session {
 
     public void setSession_length(Integer session_length) {
         this.session_length = session_length;
-    }
-
-    public List<Speaker> getSpeakers() {
-        return speakers;
-    }
-
-    public void setSpeakers(List<Speaker> speakers) {
-        this.speakers = speakers;
     }
 }
